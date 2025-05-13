@@ -21,128 +21,110 @@ export default function DocumentPage() {
     const downPayment = searchParams.get('downPayment') || '50';
     const terms = searchParams.get('terms') || '';
     const currentDate = format(new Date(), 'MM/dd/yyyy');
-    const projectNumber = Math.floor(100000 + Math.random() * 900000).toString();
 
     return `
       <div class="max-w-4xl mx-auto bg-white">
-        <div class="flex justify-between items-start mb-12">
-          <div>
-            <h1 class="text-3xl font-bold mb-4">Project Proposal</h1>
-            <p class="text-sm text-muted-foreground">Date: ${currentDate}</p>
-            <p class="text-sm text-muted-foreground">Project #: ${projectNumber}</p>
-          </div>
-          <div class="text-right">
-            <img src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg" alt="Company Logo" class="w-32 h-auto mb-2" />
-            <p class="text-sm">Custom Construction Co.</p>
-            <p class="text-sm">123 Builder Street</p>
-            <p class="text-sm">Construction City, ST 12345</p>
+        <div class="mb-8">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <h1 class="text-2xl font-bold">${contactInfo.name} Project Proposal</h1>
+              <p class="text-sm text-muted-foreground">Date: ${currentDate}</p>
+            </div>
           </div>
         </div>
 
-        <div class="mb-8 p-6 bg-gray-50 rounded-lg">
-          <h2 class="text-xl font-semibold mb-4">Client Information</h2>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <p class="font-medium">Name:</p>
+        <div class="grid grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 class="font-semibold mb-2">Customer</h3>
+            <div class="text-sm">
               <p>${contactInfo.name}</p>
-            </div>
-            <div>
-              <p class="font-medium">Address:</p>
               <p>${contactInfo.address}</p>
-            </div>
-            <div>
-              <p class="font-medium">Phone:</p>
-              <p>${contactInfo.phone}</p>
-            </div>
-            <div>
-              <p class="font-medium">Email:</p>
-              <p>${contactInfo.email}</p>
+              <p>Phone Number: ${contactInfo.phone}</p>
+              <p>Email: ${contactInfo.email}</p>
             </div>
           </div>
+          <div>
+            <h3 class="font-semibold mb-2">Company</h3>
+            <div class="text-sm">
+              <p>Custom Construction Co.</p>
+              <p>350 Builder Street, Suite 220</p>
+              <p>Construction City, ST 12345</p>
+              <p>info@customconstruction.com</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">Overview</h2>
+          <p class="text-sm whitespace-pre-wrap">${scopeOfWork}</p>
         </div>
 
         <div class="mb-8">
           <h2 class="text-xl font-semibold mb-4">Scope of Work</h2>
-          <div class="p-6 bg-gray-50 rounded-lg">
-            <p class="whitespace-pre-wrap">${scopeOfWork}</p>
+          <div class="text-sm whitespace-pre-wrap">
+            ${scopeOfWork.split('\n').map(line => `<p class="mb-2">• ${line}</p>`).join('')}
           </div>
         </div>
 
         <div class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">Project Timeline</h2>
-          <div class="p-6 bg-gray-50 rounded-lg">
-            <p class="whitespace-pre-wrap">${timeline}</p>
+          <h2 class="text-xl font-semibold mb-4">Timeline</h2>
+          <div class="text-sm whitespace-pre-wrap">${timeline}</div>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">Price Breakdown</h2>
+          <p class="text-sm mb-4">Line items and amounts are all generated. Audit and adjust totals before sharing.</p>
+          <div class="border rounded-lg overflow-hidden">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-2 text-left">Item</th>
+                  <th class="px-4 py-2 text-left">Quantity</th>
+                  <th class="px-4 py-2 text-left">Unit Price</th>
+                  <th class="px-4 py-2 text-left">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${budget.split('\n').map((line, i) => `
+                  <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                    <td class="px-4 py-2">${line}</td>
+                    <td class="px-4 py-2">1</td>
+                    <td class="px-4 py-2">$0.00</td>
+                    <td class="px-4 py-2">$0.00</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+              <tfoot class="bg-gray-50 font-semibold">
+                <tr>
+                  <td colspan="3" class="px-4 py-2 text-right">Total:</td>
+                  <td class="px-4 py-2">$0.00</td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
         </div>
 
         <div class="mb-8">
-          <h2 class="text-xl font-semibold mb-4">Investment</h2>
-          <div class="p-6 bg-gray-50 rounded-lg">
-            <div class="mb-6">
-              <p class="whitespace-pre-wrap">${budget}</p>
-            </div>
-            
-            <div class="border-t pt-4 mt-4">
-              <h3 class="font-medium mb-3">Payment Schedule</h3>
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <p class="text-sm text-muted-foreground">Down Payment (${downPayment}%)</p>
-                  <p class="font-bold text-lg">$${(parseFloat(budget.replace(/[^0-9.]/g, '')) * (parseInt(downPayment) / 100)).toFixed(2)}</p>
-                </div>
-                <div>
-                  <p class="text-sm text-muted-foreground">Remaining Balance</p>
-                  <p class="font-bold text-lg">$${(parseFloat(budget.replace(/[^0-9.]/g, '')) * (1 - parseInt(downPayment) / 100)).toFixed(2)}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h2 class="text-xl font-semibold mb-4">Payment</h2>
+          <p class="text-sm">To start work, we will need a ${downPayment}% deposit. The remainder will be paid when the work has been completed to your satisfaction.</p>
         </div>
 
         <div class="mb-12">
           <h2 class="text-xl font-semibold mb-4">Terms & Conditions</h2>
-          <div class="p-6 bg-gray-50 rounded-lg">
-            ${terms ? `
-              <div class="whitespace-pre-wrap">${terms}</div>
-            ` : `
-              <div class="space-y-4">
-                <section>
-                  <h3 class="font-medium mb-2">1. Payment Terms</h3>
-                  <ul class="list-disc pl-5 space-y-1">
-                    <li>${downPayment}% down payment required to begin work</li>
-                    <li>Remaining balance due upon completion</li>
-                    <li>All payments must be made within 30 days of invoice date</li>
-                  </ul>
-                </section>
-                
-                <section>
-                  <h3 class="font-medium mb-2">2. Project Timeline</h3>
-                  <ul class="list-disc pl-5 space-y-1">
-                    <li>Start date to be determined upon receipt of down payment</li>
-                    <li>Timeline subject to change based on weather and material availability</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h3 class="font-medium mb-2">3. Warranty</h3>
-                  <ul class="list-disc pl-5 space-y-1">
-                    <li>Workmanship guaranteed for one year from completion</li>
-                    <li>Manufacturer warranties apply to all materials</li>
-                  </ul>
-                </section>
-              </div>
-            `}
+          <div class="text-sm whitespace-pre-wrap">
+            ${terms || 'Standard contractor terms apply.'}
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-8 mt-12 pt-8 border-t">
           <div>
-            <p class="font-medium mb-4">Client Acceptance:</p>
-            <div class="border-b border-dashed w-full"></div>
+            <p class="font-medium mb-8">Client Signature:</p>
+            <div class="border-b border-dashed w-48"></div>
             <p class="text-sm text-muted-foreground mt-2">Date</p>
           </div>
           <div>
-            <p class="font-medium mb-4">Contractor Approval:</p>
-            <div class="border-b border-dashed w-full"></div>
+            <p class="font-medium mb-8">Contractor Signature:</p>
+            <div class="border-b border-dashed w-48"></div>
             <p class="text-sm text-muted-foreground mt-2">Date</p>
           </div>
         </div>
