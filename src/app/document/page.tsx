@@ -21,132 +21,101 @@ export default function DocumentPage() {
     const downPayment = searchParams.get('downPayment') || '50';
     const terms = searchParams.get('terms') || '';
     const currentDate = format(new Date(), 'MM/dd/yyyy');
-    const estimateNumber = Math.floor(100000 + Math.random() * 900000).toString();
-
-    const downPaymentAmount = parseFloat(budget.replace(/[^0-9.]/g, '')) * (parseInt(downPayment) / 100);
 
     return `
-      <div class="flex justify-between items-start mb-12">
-        <div>
-          <h1 class="text-3xl font-bold mb-4">Custom Builds</h1>
-          <p>2059 N Wildflower Dr</p>
-          <p>Casa Grande, AZ, 85222</p>
-          <p>(520) 723-5430</p>
-          <p>contact@custombuilds.com</p>
+      <div class="space-y-8">
+        <div class="text-center">
+          <h1 class="text-3xl font-bold">${contactInfo.name} Project Proposal</h1>
+          <p class="text-muted-foreground">Date: ${currentDate}</p>
         </div>
-        <div class="text-right">
-          <h2 class="text-2xl font-bold mb-4">Estimate</h2>
-          <p><strong>Estimate Number:</strong> ${estimateNumber}</p>
-          <p><strong>Estimate Date:</strong> ${currentDate}</p>
-        </div>
-      </div>
 
-      <div class="mb-8">
-        <h3 class="font-semibold mb-2">Client</h3>
-        <div class="pl-4">
-          <p>${contactInfo.name}</p>
-          <p>${contactInfo.address}</p>
-          <p>${contactInfo.phone}</p>
-          <p>${contactInfo.email}</p>
-        </div>
-      </div>
-
-      <div class="mb-8">
-        <h3 class="font-semibold mb-2">Description of Work</h3>
-        <div class="bg-muted/30 p-4 rounded-lg">
-          <p>${scopeOfWork}</p>
-        </div>
-      </div>
-
-      <div class="mb-8">
-        <h3 class="font-semibold mb-2">Timeline</h3>
-        <div class="pl-4">
-          <p>${timeline}</p>
-        </div>
-      </div>
-
-      <div class="mb-8">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-2xl font-bold">Budget</h3>
-          <span class="text-2xl">$</span>
-        </div>
-        <div class="bg-white p-6 rounded-lg border">
-          <div class="text-lg mb-6">
-            ${budget}
+        <div class="grid grid-cols-2 gap-8">
+          <div>
+            <h3 class="font-semibold mb-2">Customer</h3>
+            <div class="space-y-1">
+              <p>${contactInfo.name}</p>
+              <p>${contactInfo.address}</p>
+              <p>Phone: ${contactInfo.phone}</p>
+              <p>Email: ${contactInfo.email}</p>
+            </div>
           </div>
-          
-          <div class="bg-muted/20 p-4 rounded-lg">
-            <h4 class="font-semibold mb-2">Payment Schedule</h4>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <p class="text-sm text-muted-foreground">Down Payment (${downPayment}%)</p>
-                <p class="font-bold">$${downPaymentAmount.toFixed(2)}</p>
-              </div>
-              <div>
-                <p class="text-sm text-muted-foreground">Final Payment</p>
-                <p class="font-bold">$${(parseFloat(budget.replace(/[^0-9.]/g, '')) - downPaymentAmount).toFixed(2)}</p>
+          <div>
+            <h3 class="font-semibold mb-2">Company</h3>
+            <div class="space-y-1">
+              <p>Custom Builds LLC</p>
+              <p>2059 N Wildflower Dr</p>
+              <p>Casa Grande, AZ 85222</p>
+              <p>contact@custombuilds.com</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold mb-4">Overview</h2>
+          <div class="prose prose-sm max-w-none">
+            <p>${scopeOfWork}</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold mb-4">Scope of Work</h2>
+          <div class="prose prose-sm max-w-none">
+            <p>${scopeOfWork}</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold mb-4">Timeline</h2>
+          <div class="prose prose-sm max-w-none">
+            <p>${timeline}</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold mb-4">Price Breakdown</h2>
+          <div class="bg-muted/20 p-6 rounded-lg">
+            <div class="prose prose-sm max-w-none mb-6">
+              <p>${budget}</p>
+            </div>
+
+            <div class="mt-6">
+              <h3 class="font-semibold mb-2">Payment Schedule</h3>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-muted-foreground">Down Payment (${downPayment}%)</p>
+                  <p class="font-bold">Required to begin work</p>
+                </div>
+                <div>
+                  <p class="text-sm text-muted-foreground">Final Payment</p>
+                  <p class="font-bold">Due upon completion</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="mt-12 pt-8 border-t">
-        <div class="mb-8">
-          <h3 class="font-bold text-lg mb-4">Terms & Conditions</h3>
-          <div class="space-y-6">
-            ${terms ? `
-              <section class="prose prose-sm">
-                <div class="whitespace-pre-wrap">${terms}</div>
-              </section>
-            ` : `
-              <section>
-                <h4 class="font-semibold mb-2">1. Estimate Validity</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li>This estimate is valid for 30 days from the date issued.</li>
-                  <li>Prices are subject to change if the estimate expires.</li>
-                </ul>
-              </section>
-              
-              <section>
-                <h4 class="font-semibold mb-2">2. Payment Terms</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li>A ${downPayment}% down payment is required to begin work.</li>
-                  <li>The remaining balance is due upon project completion.</li>
-                  <li>All payments must be made by check or bank transfer.</li>
-                  <li>Late payments are subject to a 1.5% monthly interest charge.</li>
-                </ul>
-              </section>
-              
-              <section>
-                <h4 class="font-semibold mb-2">3. Project Changes</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li>Any modifications to the scope of work must be agreed upon in writing.</li>
-                  <li>Changes may affect the project timeline and final cost.</li>
-                  <li>Additional work will be billed at our standard rates.</li>
-                </ul>
-              </section>
-              
-              <section>
-                <h4 class="font-semibold mb-2">4. Warranties</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li>Workmanship is guaranteed for one year from completion.</li>
-                  <li>Manufacturer warranties apply to all materials used.</li>
-                  <li>Warranty claims must be submitted in writing.</li>
-                </ul>
-              </section>
+        <div>
+          <h2 class="text-xl font-bold mb-4">Terms & Conditions</h2>
+          <div class="prose prose-sm max-w-none">
+            ${terms || `
+              <div class="space-y-4">
+                <p>1. This proposal is valid for 30 days from the date above.</p>
+                <p>2. A ${downPayment}% down payment is required to begin work.</p>
+                <p>3. Final payment is due upon project completion.</p>
+                <p>4. Any changes to the scope of work may affect the timeline and cost.</p>
+              </div>
             `}
           </div>
         </div>
-        
-        <div class="grid grid-cols-2 gap-8 mt-12">
+
+        <div class="grid grid-cols-2 gap-8 mt-12 pt-8 border-t">
           <div>
-            <p class="font-semibold mb-4">Client Signature:</p>
+            <p class="font-semibold mb-4">Client Acceptance:</p>
             <div class="border-b border-dashed w-48"></div>
             <p class="text-sm text-muted-foreground mt-2">Date</p>
           </div>
           <div>
-            <p class="font-semibold mb-4">Contractor Signature:</p>
+            <p class="font-semibold mb-4">Contractor Approval:</p>
             <div class="border-b border-dashed w-48"></div>
             <p class="text-sm text-muted-foreground mt-2">Date</p>
           </div>
@@ -156,7 +125,7 @@ export default function DocumentPage() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-4xl">
+    <div className="container mx-auto py-8 px-4 max-w-[800px]">
       <DocumentEditor initialContent={generateInitialContent()} />
     </div>
   );
