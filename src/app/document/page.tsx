@@ -21,6 +21,20 @@ export default function DocumentPage() {
     const currentDate = format(new Date(), 'MM/dd/yyyy');
     const estimateNumber = Math.floor(100000 + Math.random() * 900000).toString();
 
+    // Parse line items from URL
+    const lineItemsParam = searchParams.get('lineItems');
+    let lineItems = [];
+    let total = 0;
+    
+    if (lineItemsParam) {
+      try {
+        lineItems = JSON.parse(decodeURIComponent(lineItemsParam));
+        total = lineItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+      } catch (e) {
+        console.error('Error parsing line items:', e);
+      }
+    }
+
     return `
       <div class="flex justify-between items-start mb-12">
         <div>
@@ -66,31 +80,24 @@ export default function DocumentPage() {
         <table class="w-full border-collapse">
           <thead>
             <tr class="bg-muted/30">
-              <th class="border p-2 text-left">Service / Item</th>
-              <th class="border p-2 text-left">Description</th>
-              <th class="border p-2 text-right">Quantity / Hours</th>
-              <th class="border p-2 text-right">Unit Cost</th>
+              <th class="border p-2 text-left">Item</th>
+              <th class="border p-2 text-right">Quantity</th>
+              <th class="border p-2 text-right">Price</th>
               <th class="border p-2 text-right">Total</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="border p-2">Labor</td>
-              <td class="border p-2">General construction labor</td>
-              <td class="border p-2 text-right">40</td>
-              <td class="border p-2 text-right">$75.00</td>
-              <td class="border p-2 text-right">$3,000.00</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Materials</td>
-              <td class="border p-2">Construction materials</td>
-              <td class="border p-2 text-right">1</td>
-              <td class="border p-2 text-right">$2,500.00</td>
-              <td class="border p-2 text-right">$2,500.00</td>
-            </tr>
+            ${lineItems.map(item => `
+              <tr>
+                <td class="border p-2">${item.itemName}</td>
+                <td class="border p-2 text-right">${item.quantity}</td>
+                <td class="border p-2 text-right">$${item.price.toFixed(2)}</td>
+                <td class="border p-2 text-right">$${(item.quantity * item.price).toFixed(2)}</td>
+              </tr>
+            `).join('')}
             <tr class="bg-muted/30">
-              <td colspan="4" class="border p-2 text-right font-bold">Total:</td>
-              <td class="border p-2 text-right font-bold">$${budget}</td>
+              <td colspan="3" class="border p-2 text-right font-bold">Total:</td>
+              <td class="border p-2 text-right font-bold">$${total.toFixed(2)}</td>
             </tr>
           </tbody>
         </table>
