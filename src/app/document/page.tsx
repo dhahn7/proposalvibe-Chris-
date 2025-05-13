@@ -62,68 +62,33 @@ export default function DocumentPage() {
       </div>
 
       <div class="mb-8">
-        <h3 class="font-semibold mb-2">Budget Breakdown</h3>
-        <table class="w-full border-collapse">
-          <thead>
-            <tr class="bg-muted/30">
-              <th class="border p-2 text-left">Item</th>
-              <th class="border p-2 text-right">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border p-2">Initial Assessment and Planning</td>
-              <td class="border p-2 text-right">$500.00</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Materials and Supplies</td>
-              <td class="border p-2 text-right">$2,500.00</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Labor Costs</td>
-              <td class="border p-2 text-right">$3,000.00</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Equipment Rental</td>
-              <td class="border p-2 text-right">$800.00</td>
-            </tr>
-            <tr class="bg-muted/30">
-              <td class="border p-2 font-bold">Total Project Cost</td>
-              <td class="border p-2 text-right font-bold">$${budget}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mb-8">
-        <h3 class="font-semibold mb-2">Services / Items Detail</h3>
-        <table class="w-full border-collapse">
-          <thead>
-            <tr class="bg-muted/30">
-              <th class="border p-2 text-left">Service / Item</th>
-              <th class="border p-2 text-left">Description</th>
-              <th class="border p-2 text-right">Quantity / Hours</th>
-              <th class="border p-2 text-right">Unit Cost</th>
-              <th class="border p-2 text-right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border p-2">Labor</td>
-              <td class="border p-2">General construction labor</td>
-              <td class="border p-2 text-right">40</td>
-              <td class="border p-2 text-right">$75.00</td>
-              <td class="border p-2 text-right">$3,000.00</td>
-            </tr>
-            <tr>
-              <td class="border p-2">Materials</td>
-              <td class="border p-2">Construction materials</td>
-              <td class="border p-2 text-right">1</td>
-              <td class="border p-2 text-right">$2,500.00</td>
-              <td class="border p-2 text-right">$2,500.00</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-2xl font-bold">Budget</h3>
+          <span class="text-2xl">$</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg border">
+          <div class="text-lg mb-6">
+            ${budget}
+          </div>
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="text-left py-2">Item</th>
+                <th class="text-right py-2">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2">Labor</td>
+                <td class="text-right py-2">$2,000</td>
+              </tr>
+              <tr>
+                <td class="py-2">Materials</td>
+                <td class="text-right py-2">$3,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="mt-12 pt-8 border-t">
