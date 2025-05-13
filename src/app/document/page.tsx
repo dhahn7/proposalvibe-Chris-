@@ -20,9 +20,20 @@ export default function DocumentPage() {
   const terms = searchParams.get('terms') || 'Standard contractor terms apply.';
   const currentDate = format(new Date(), 'MM/dd/yyyy');
 
-  // Parse budget string to extract numbers if possible
-  const budgetLines = budget.split('\n').filter(line => line.trim());
-  let total = 0;
+  // Extract numbers from budget text
+  const extractAmounts = (text: string) => {
+    const matches = text.match(/\$?([\d,]+(?:\.\d{2})?)/g) || [];
+    return matches.map(match => parseFloat(match.replace(/[$,]/g, '')));
+  };
+
+  const amounts = extractAmounts(budget);
+  const total = amounts.reduce((sum, amount) => sum + amount, 0);
+  const downPaymentAmount = (total * (parseInt(downPayment) / 100));
+
+  // Format budget lines for display
+  const budgetLines = budget.split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
 
   return (
     <div className="max-w-[8.5in] mx-auto bg-white p-8 shadow-lg">
@@ -81,26 +92,25 @@ export default function DocumentPage() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-2 text-left font-medium">Item</th>
-                <th className="px-4 py-2 text-left font-medium">Quantity</th>
-                <th className="px-4 py-2 text-left font-medium">Unit Price</th>
-                <th className="px-4 py-2 text-left font-medium">Total</th>
+                <th className="px-4 py-2 text-left font-medium">Description</th>
+                <th className="px-4 py-2 text-right font-medium">Amount</th>
               </tr>
             </thead>
             <tbody>
-              {budgetLines.map((line, i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="px-4 py-2">{line}</td>
-                  <td className="px-4 py-2">1</td>
-                  <td className="px-4 py-2">$0.00</td>
-                  <td className="px-4 py-2">$0.00</td>
-                </tr>
-              ))}
+              {budgetLines.map((line, i) => {
+                const amount = amounts[i] || 0;
+                return (
+                  <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="px-4 py-2">{line}</td>
+                    <td className="px-4 py-2 text-right">${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                  </tr>
+                );
+              })}
             </tbody>
             <tfoot className="bg-gray-50 font-medium">
               <tr>
-                <td colSpan={3} className="px-4 py-2 text-right">Total:</td>
-                <td className="px-4 py-2">${total.toFixed(2)}</td>
+                <td className="px-4 py-2 text-right">Total:</td>
+                <td className="px-4 py-2 text-right">${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
               </tr>
             </tfoot>
           </table>
@@ -110,7 +120,8 @@ export default function DocumentPage() {
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Payment</h2>
         <p className="text-sm">
-          To start work, we will need a {downPayment}% deposit. The remainder will be paid when the work has been completed to your satisfaction.
+          To start work, we will need a {downPayment}% deposit (${downPaymentAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}). 
+          The remainder (${(total - downPaymentAmount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}) will be paid when the work has been completed to your satisfaction.
         </p>
       </div>
 
