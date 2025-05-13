@@ -62,7 +62,41 @@ export default function DocumentPage() {
       </div>
 
       <div class="mb-8">
-        <h3 class="font-semibold mb-2">Services / Items</h3>
+        <h3 class="font-semibold mb-2">Budget Breakdown</h3>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-muted/30">
+              <th class="border p-2 text-left">Item</th>
+              <th class="border p-2 text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border p-2">Initial Assessment and Planning</td>
+              <td class="border p-2 text-right">$500.00</td>
+            </tr>
+            <tr>
+              <td class="border p-2">Materials and Supplies</td>
+              <td class="border p-2 text-right">$2,500.00</td>
+            </tr>
+            <tr>
+              <td class="border p-2">Labor Costs</td>
+              <td class="border p-2 text-right">$3,000.00</td>
+            </tr>
+            <tr>
+              <td class="border p-2">Equipment Rental</td>
+              <td class="border p-2 text-right">$800.00</td>
+            </tr>
+            <tr class="bg-muted/30">
+              <td class="border p-2 font-bold">Total Project Cost</td>
+              <td class="border p-2 text-right font-bold">$${budget}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mb-8">
+        <h3 class="font-semibold mb-2">Services / Items Detail</h3>
         <table class="w-full border-collapse">
           <thead>
             <tr class="bg-muted/30">
@@ -87,10 +121,6 @@ export default function DocumentPage() {
               <td class="border p-2 text-right">1</td>
               <td class="border p-2 text-right">$2,500.00</td>
               <td class="border p-2 text-right">$2,500.00</td>
-            </tr>
-            <tr class="bg-muted/30">
-              <td colspan="4" class="border p-2 text-right font-bold">Total:</td>
-              <td class="border p-2 text-right font-bold">$${budget}</td>
             </tr>
           </tbody>
         </table>
