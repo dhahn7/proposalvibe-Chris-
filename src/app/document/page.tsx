@@ -70,7 +70,7 @@ export default function DocumentPage() {
           <div class="text-lg mb-6">
             ${budget}
           </div>
-          <table class="w-full">
+          <table class="w-full mb-6">
             <thead>
               <tr>
                 <th class="text-left py-2">Item</th>
@@ -86,20 +86,69 @@ export default function DocumentPage() {
                 <td class="py-2">Materials</td>
                 <td class="text-right py-2">$3,000</td>
               </tr>
+              <tr class="border-t">
+                <td class="py-2 font-bold">Total</td>
+                <td class="text-right py-2 font-bold">$5,000</td>
+              </tr>
             </tbody>
           </table>
+          
+          <div class="bg-muted/20 p-4 rounded-lg">
+            <h4 class="font-semibold mb-2">Payment Schedule</h4>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-muted-foreground">Down Payment (50%)</p>
+                <p class="font-bold">$2,500</p>
+              </div>
+              <div>
+                <p class="text-sm text-muted-foreground">Final Payment</p>
+                <p class="font-bold">$2,500</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="mt-12 pt-8 border-t">
         <div class="mb-8">
-          <p class="font-semibold">Terms & Conditions:</p>
-          <ul class="list-disc pl-5 space-y-2 mt-2">
-            <li>This estimate is valid for 30 days from the date above.</li>
-            <li>50% deposit required to begin work.</li>
-            <li>Final payment due upon project completion.</li>
-            <li>Any changes to the scope of work may affect the timeline and cost.</li>
-          </ul>
+          <h3 class="font-bold text-lg mb-4">Terms & Conditions</h3>
+          <div class="space-y-6">
+            <section>
+              <h4 class="font-semibold mb-2">1. Estimate Validity</h4>
+              <ul class="list-disc pl-5 space-y-1">
+                <li>This estimate is valid for 30 days from the date issued.</li>
+                <li>Prices are subject to change if the estimate expires.</li>
+              </ul>
+            </section>
+            
+            <section>
+              <h4 class="font-semibold mb-2">2. Payment Terms</h4>
+              <ul class="list-disc pl-5 space-y-1">
+                <li>A 50% down payment is required to begin work.</li>
+                <li>The remaining balance is due upon project completion.</li>
+                <li>All payments must be made by check or bank transfer.</li>
+                <li>Late payments are subject to a 1.5% monthly interest charge.</li>
+              </ul>
+            </section>
+            
+            <section>
+              <h4 class="font-semibold mb-2">3. Project Changes</h4>
+              <ul class="list-disc pl-5 space-y-1">
+                <li>Any modifications to the scope of work must be agreed upon in writing.</li>
+                <li>Changes may affect the project timeline and final cost.</li>
+                <li>Additional work will be billed at our standard rates.</li>
+              </ul>
+            </section>
+            
+            <section>
+              <h4 class="font-semibold mb-2">4. Warranties</h4>
+              <ul class="list-disc pl-5 space-y-1">
+                <li>Workmanship is guaranteed for one year from completion.</li>
+                <li>Manufacturer warranties apply to all materials used.</li>
+                <li>Warranty claims must be submitted in writing.</li>
+              </ul>
+            </section>
+          </div>
         </div>
         
         <div class="grid grid-cols-2 gap-8 mt-12">
