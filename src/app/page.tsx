@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { categorizeInformationAction, transcribeAudioAction } from "./actions";
 import AudioRecorder from "@/components/audio-recorder";
 import CategoryCard from "@/components/category-card";
@@ -61,6 +62,7 @@ const EXAMPLE_CARDS = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [transcribedText, setTranscribedText] = useState<string | null>(null);
   const [categorizedInfo, setCategorizedInfo] = useState<CategorizeInformationOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,11 +107,8 @@ export default function Home() {
       terms: termsAndConditions
     });
 
-    // Open in a new tab
-    window.open(`/document?${params.toString()}`, '_blank');
-    
-    // Reset the form
-    window.location.reload();
+    // Navigate in the same window
+    router.push(`/document?${params.toString()}`);
   };
 
   const handleRecordingComplete = async (audioDataUri: string) => {
