@@ -154,11 +154,15 @@ export default function Home() {
   };
 
   const handleNextCard = () => {
-    setCurrentCardIndex((prev) => (prev + 1) % EXAMPLE_CARDS.length);
+    if (currentCardIndex < EXAMPLE_CARDS.length - 1) {
+      setCurrentCardIndex(currentCardIndex + 1);
+    }
   };
 
   const handlePrevCard = () => {
-    setCurrentCardIndex((prev) => (prev - 1 + EXAMPLE_CARDS.length) % EXAMPLE_CARDS.length);
+    if (currentCardIndex > 0) {
+      setCurrentCardIndex(currentCardIndex - 1);
+    }
   };
 
   const renderSkeleton = () => (
@@ -326,7 +330,11 @@ export default function Home() {
                 <div className="relative flex justify-center items-center">
                   <button
                     onClick={handlePrevCard}
-                    className="absolute left-0 z-10 p-2 bg-white/80 rounded-full shadow-lg"
+                    className={cn(
+                      "absolute left-0 z-10 p-2 bg-white/80 rounded-full shadow-lg",
+                      currentCardIndex === 0 && "opacity-50 cursor-not-allowed"
+                    )}
+                    disabled={currentCardIndex === 0}
                   >
                     <ChevronLeft className="h-6 w-6" />
                   </button>
@@ -339,7 +347,7 @@ export default function Home() {
                           "absolute top-0 w-full transition-all duration-300 transform",
                           index === currentCardIndex
                             ? "relative z-20 opacity-100 translate-x-0"
-                            : index === (currentCardIndex + 1) % EXAMPLE_CARDS.length
+                            : index === currentCardIndex + 1
                             ? "opacity-50 translate-x-[90%]"
                             : "opacity-0 pointer-events-none translate-x-full"
                         )}
@@ -363,7 +371,11 @@ export default function Home() {
 
                   <button
                     onClick={handleNextCard}
-                    className="absolute right-0 z-10 p-2 bg-white/80 rounded-full shadow-lg"
+                    className={cn(
+                      "absolute right-0 z-10 p-2 bg-white/80 rounded-full shadow-lg",
+                      currentCardIndex === EXAMPLE_CARDS.length - 1 && "opacity-50 cursor-not-allowed"
+                    )}
+                    disabled={currentCardIndex === EXAMPLE_CARDS.length - 1}
                   >
                     <ChevronRight className="h-6 w-6" />
                   </button>
