@@ -27,6 +27,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  FileText,
+  Percent,
 } from "lucide-react";
 import type { CategorizeInformationOutput } from "@/ai/flows/categorize-information";
 import { useToast } from "@/hooks/use-toast";
@@ -69,6 +71,8 @@ export default function Home() {
   const [lineItems, setLineItems] = useState<LineItem[]>([]);
   const [scopeImages, setScopeImages] = useState<ImageDetail[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [downPaymentPercentage, setDownPaymentPercentage] = useState<string>("");
+  const [termsAndConditions, setTermsAndConditions] = useState<string>("");
 
   const [contactName, setContactName] = useState("");
   const [contactAddress, setContactAddress] = useState("");
@@ -96,7 +100,9 @@ export default function Home() {
       phone: categorizedInfo.contactInformation.phone,
       email: categorizedInfo.contactInformation.email,
       timeline: categorizedInfo.timeline,
-      budget: categorizedInfo.budget
+      budget: categorizedInfo.budget,
+      downPayment: downPaymentPercentage,
+      terms: termsAndConditions
     });
 
     window.location.href = `/document?${params.toString()}`;
@@ -123,6 +129,8 @@ export default function Home() {
     setContactAddress("");
     setContactPhone("");
     setContactEmail("");
+    setDownPaymentPercentage("");
+    setTermsAndConditions("");
 
     try {
       const transcriptionResult = await transcribeAudioAction({ audioDataUri });
@@ -162,6 +170,14 @@ export default function Home() {
   const handlePrevCard = () => {
     if (currentCardIndex > 0) {
       setCurrentCardIndex(currentCardIndex - 1);
+    }
+  };
+
+  const handleDownPaymentChange = (value: string) => {
+    // Only allow numbers and limit to 100
+    const numValue = value.replace(/[^\d]/g, '');
+    if (numValue === '' || (parseInt(numValue) >= 0 && parseInt(numValue) <= 100)) {
+      setDownPaymentPercentage(numValue);
     }
   };
 
@@ -584,6 +600,43 @@ export default function Home() {
                   )}
                   {lineItems.length > 0 ? "View/Edit Line Items" : "Add Line Items"}
                 </Button>
+
+                <div className="pt-4 border-t">
+                  <Label htmlFor="down-payment" className="text-sm font-medium flex items-center gap-2">
+                    <Percent className="h-4 w-4" />
+                    Down Payment Percentage
+                  </Label>
+                  <div className="mt-2 relative">
+                    <Input
+                      id="down-payment"
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={downPaymentPercentage}
+                      onChange={(e) => handleDownPaymentChange(e.target.value)}
+                      placeholder="Enter down payment percentage..."
+                      className="pr-8"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CategoryCard>
+
+            <CategoryCard title="Terms & Conditions" icon={FileText}>
+              <div className="space-y-2">
+                <Label htmlFor="terms" className="text-sm font-medium">
+                  Additional Terms & Conditions
+                </Label>
+                <Textarea
+                  id="terms"
+                  value={termsAndConditions}
+                  onChange={(e) => setTermsAndConditions(e.target.value)}
+                  placeholder="Enter any additional terms and conditions..."
+                  className="min-h-[150px]"
+                />
               </div>
             </CategoryCard>
           </div>
