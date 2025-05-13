@@ -105,7 +105,11 @@ export default function Home() {
       terms: termsAndConditions
     });
 
-    window.location.href = `/document?${params.toString()}`;
+    // Open in a new tab
+    window.open(`/document?${params.toString()}`, '_blank');
+    
+    // Reset the form
+    window.location.reload();
   };
 
   const handleRecordingComplete = async (audioDataUri: string) => {
@@ -519,7 +523,7 @@ export default function Home() {
                     {scopeImages.map((image, index) => (
                       <div
                         key={image.id}
-                        className="relative group flex flex-col items-center"
+                        className="relative group/menu-item flex flex-col items-center"
                       >
                         <button
                           onClick={() => openImageModal(index)}
