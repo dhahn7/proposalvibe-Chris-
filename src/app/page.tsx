@@ -91,12 +91,13 @@ export default function Home() {
     
     const params = new URLSearchParams({
       scope: categorizedInfo.scopeOfWork,
-      name: categorizedInfo.contactInformation.name,
-      address: categorizedInfo.contactInformation.address,
-      phone: categorizedInfo.contactInformation.phone,
-      email: categorizedInfo.contactInformation.email,
+      name: contactName,
+      address: contactAddress,
+      phone: contactPhone,
+      email: contactEmail,
       timeline: categorizedInfo.timeline,
-      budget: categorizedInfo.budget
+      budget: categorizedInfo.budget,
+      lineItems: encodeURIComponent(JSON.stringify(lineItems))
     });
 
     window.location.href = `/document?${params.toString()}`;
@@ -303,6 +304,53 @@ export default function Home() {
   const selectedImageData =
     selectedImageIndex !== null ? scopeImages[selectedImageIndex] : null;
 
+  const renderReviewTable = () => {
+    if (!categorizedInfo) return null;
+
+    return (
+      <div className="mb-8 overflow-x-auto">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="bg-muted/30">
+              <th className="border p-2 text-left">Category</th>
+              <th className="border p-2 text-left">Information</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border p-2 font-medium">Contact Name</td>
+              <td className="border p-2">{contactName || "Not provided"}</td>
+            </tr>
+            <tr>
+              <td className="border p-2 font-medium">Contact Address</td>
+              <td className="border p-2">{contactAddress || "Not provided"}</td>
+            </tr>
+            <tr>
+              <td className="border p-2 font-medium">Contact Phone</td>
+              <td className="border p-2">{contactPhone || "Not provided"}</td>
+            </tr>
+            <tr>
+              <td className="border p-2 font-medium">Contact Email</td>
+              <td className="border p-2">{contactEmail || "Not provided"}</td>
+            </tr>
+            <tr>
+              <td className="border p-2 font-medium">Scope of Work</td>
+              <td className="border p-2">{categorizedInfo.scopeOfWork}</td>
+            </tr>
+            <tr>
+              <td className="border p-2 font-medium">Timeline</td>
+              <td className="border p-2">{categorizedInfo.timeline}</td>
+            </tr>
+            <tr>
+              <td className="border p-2 font-medium">Budget</td>
+              <td className="border p-2">{categorizedInfo.budget}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   return (
     <div
       className="mx-auto py-8"
@@ -403,6 +451,7 @@ export default function Home() {
 
         {!isLoading && !isCategorizing && categorizedInfo && (
           <div className="space-y-6 mx-auto max-w-[500px] px-4">
+            {renderReviewTable()}
             <CategoryCard title="Contact Information" icon={User}>
               <div className="space-y-3">
                 <div>
